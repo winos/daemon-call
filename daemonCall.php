@@ -2,7 +2,7 @@
 <?php
 require_once './src/DaemonCall.php';
 require_once './src/lib/SkySocketElastix.php';
-
+require_once './src/lib/Logger.php';
 /**
 * This is a daemon for audio events
 *
@@ -14,6 +14,9 @@ define('TIME_CALL_SLEEP', 10);
 // Coleccion de sims
 $gpsNumbers = ['3135709916', '3007400080'];
 $daemon = new DaemonCall($gpsNumbers);
+
+// open logger
+Logger::open();
 
 try {
   $elastix = new SkySocketElastix("127.0.0.1", "3000");
@@ -46,6 +49,7 @@ do {
     $elastix->read(function ($me) {
 
       $line  = $me->getLine();
+      Logger::write($line, "info");
       echo "message from socket: ".$line;
       if(preg_match('/^.*\.(wav)$/i', $line))
         return true;
