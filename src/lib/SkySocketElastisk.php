@@ -1,10 +1,10 @@
 <?php
 /**
- * SkySocketElastisk
- *
- * @author    Dawin Ossa <dawinos@gmail.com>
- * @copyright Skyguard.net
- */
+* SkySocketElastisk
+*
+* @author    Dawin Ossa <dawinos@gmail.com>
+* @copyright Skyguard.net
+*/
 class SkySocketElastisk
 {
   private $_socket = null;
@@ -31,18 +31,18 @@ class SkySocketElastisk
 
   public function write($msg="", $doubleReturn = false)
   {
-      $msg = $doubleReturn ? $msg . "\r\n\r\n" : "\r\n";
-      fputs($this->_socket, $msg);
+    $msg = $doubleReturn ? $msg . "\r\n\r\n" : "\r\n";
+    fputs($this->_socket, $msg);
   }
 
   public function read($callback)
   {
     $exit = false;
     while (!feof($this->_socket)) {
-        $this->_line = fgets($this->_socket);
-        $exit = !!$callback($this);
-        if ($exit) break;
-     }
+      $this->_line = fgets($this->_socket);
+      $exit = !!$callback($this);
+      if ($exit) break;
+    }
   }
 
   public function getLine()
@@ -52,6 +52,6 @@ class SkySocketElastisk
 
   public function close()
   {
-      fclose($this->_socket);
+    fclose($this->_socket);
   }
 }

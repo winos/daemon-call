@@ -4,11 +4,11 @@ require_once './src/DaemonCall.php';
 require_once './src/lib/SkySocketElastisk.php';
 
 /**
- * This is a daemon for audio events
- *
- * @author    Dawin Ossa <dawinos@gmail.com>
- * @copyright Skyguard.net
- */
+* This is a daemon for audio events
+*
+* @author    Dawin Ossa <dawinos@gmail.com>
+* @copyright Skyguard.net
+*/
 define('TIME_CALL_SLEEP', 10);
 
 // Coleccion de sims
