@@ -17,7 +17,7 @@ net.createServer(function (socket) {
   socket.write("Welcome " + socket.name + "\n");
   broadcast(socket.name + " joined the chat\n", socket);
 
-  setInterval(function(){ broadcast("Response emit Call... :D \n", socket)}, 3000);
+  setInterval(function(){ broadcast("/var/spool/asterisk/monitor/skyguard/20161101-195839-3135709916-BOO-045.wav\n", socket)}, 10000);
 
   // Handle incoming messages from clients.
   socket.on('data', function (data) {

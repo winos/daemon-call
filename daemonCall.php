@@ -44,14 +44,14 @@ do {
 
     // wait...
     $elastisk->read(function ($me) {
+
       $line  = $me->getLine();
-      echo "message from socket: ".$me->getLine();
+      echo "message from socket: ".$line;
+      if(preg_match('/^.*\.(wav)$/i', $line))
+        return true;
     });
 
     sleep(TIME_CALL_SLEEP);
-
-    //$elastisk->close();
   }
-
 
 } while (true);

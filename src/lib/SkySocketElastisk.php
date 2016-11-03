@@ -31,18 +31,17 @@ class SkySocketElastisk
 
   public function write($msg="", $doubleReturn = false)
   {
-    //if ($this->_error) {
       $msg = $doubleReturn ? $msg . "\r\n\r\n" : "\r\n";
       fputs($this->_socket, $msg);
-    //}
   }
 
-  public function read($cb)
+  public function read($callback)
   {
-    while (!feof($this->_socket)){
+    $exit = false;
+    while (!feof($this->_socket)) {
         $this->_line = fgets($this->_socket);
-        $cb($this);
-        //if ($return) $this->close();
+        $exit = !!$callback($this);
+        if ($exit) break;
      }
   }
 
@@ -55,5 +54,4 @@ class SkySocketElastisk
   {
       fclose($this->_socket);
   }
-
 }
