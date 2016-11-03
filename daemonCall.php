@@ -15,10 +15,10 @@ define('TIME_CALL_SLEEP', 10);
 $gpsNumbers = ['3135709916', '3007400080'];
 $daemon = new DaemonCall($gpsNumbers);
 
-// open logger
-Logger::open();
 
 try {
+  
+  Logger::open();
   $elastix = new SkySocketElastix("127.0.0.1", "3000");
   // hacemos login
   $elastix->write("Action: Login", true);
