@@ -10,3 +10,4 @@
 
 # Configure
 * chmod +x daemonCall.php
+* mkdir log
