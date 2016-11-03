@@ -1,11 +1,11 @@
 <?php
 /**
-* SkySocketElastisk
+* SkySocketElastix
 *
 * @author    Dawin Ossa <dawinos@gmail.com>
 * @copyright Skyguard.net
 */
-class SkySocketElastisk
+class SkySocketElastix
 {
   private $_socket = null;
   private $_error = null;

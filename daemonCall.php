@@ -1,7 +1,7 @@
 #!/usr/bin/php
 <?php
 require_once './src/DaemonCall.php';
-require_once './src/lib/SkySocketElastisk.php';
+require_once './src/lib/SkySocketElastix.php';
 
 /**
 * This is a daemon for audio events
@@ -16,11 +16,11 @@ $gpsNumbers = ['3135709916', '3007400080'];
 $daemon = new DaemonCall($gpsNumbers);
 
 try {
-  $elastisk = new SkySocketElastisk("127.0.0.1", "3000");
+  $elastix = new SkySocketElastix("127.0.0.1", "3000");
   // hacemos login
-  $elastisk->write("Action: Login", true);
-  $elastisk->write("Username: admin", true);
-  $elastisk->write("Secret: maylo165*", true);
+  $elastix->write("Action: Login", true);
+  $elastix->write("Username: admin", true);
+  $elastix->write("Secret: maylo165*", true);
 
 } catch (Exception $e) {
   die($e->getMessage());
@@ -32,18 +32,18 @@ do {
 
   for ($i = 0; $i < $totalGps; $i++ ) {
     print "Marcando a numero: {$gpsNumbers[$i]} \n";
-    $elastisk->write("Action: Originate", true);
-    $elastisk->write("Channel: sip/3135709916@GoIP1", true);
-    $elastisk->write("MaxRetries: 2", true);
-    $elastisk->write("RetryTime: 300", true);
-    $elastisk->write("WaitTime: 45", true);
-    $elastisk->write("Context: outboundmsg1", true);
-    $elastisk->write("Exten: s", true);
-    $elastisk->write("Priority: 1", true);
-    $elastisk->write("Callerid: BOO-045 <3135709916>", true);
+    $elastix->write("Action: Originate", true);
+    $elastix->write("Channel: sip/3135709916@GoIP1", true);
+    $elastix->write("MaxRetries: 2", true);
+    $elastix->write("RetryTime: 300", true);
+    $elastix->write("WaitTime: 45", true);
+    $elastix->write("Context: outboundmsg1", true);
+    $elastix->write("Exten: s", true);
+    $elastix->write("Priority: 1", true);
+    $elastix->write("Callerid: BOO-045 <3135709916>", true);
 
     // wait...
-    $elastisk->read(function ($me) {
+    $elastix->read(function ($me) {
 
       $line  = $me->getLine();
       echo "message from socket: ".$line;
