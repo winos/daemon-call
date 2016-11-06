@@ -12,17 +12,17 @@ require_once './src/lib/Logger.php';
 define('TIME_CALL_SLEEP', 10);
 
 // Coleccion de sims
-$gpsNumbers = ['3135709916', '3007400080'];
+$gpsNumbers = ['3135709916'];
 $daemon = new DaemonCall($gpsNumbers);
 
 
 try {
   
   Logger::open();
-  $elastix = new SkySocketElastix("127.0.0.1", "3000");
+  $elastix = new SkySocketElastix("192.168.0.250", "5038");
   // hacemos login
-  $elastix->write("Action: Login", true);
-  $elastix->write("Username: admin", true);
+  $elastix->write("Action: Login");
+  $elastix->write("Username: admin");
   $elastix->write("Secret: maylo165*", true);
 
 } catch (Exception $e) {
@@ -35,14 +35,14 @@ do {
 
   for ($i = 0; $i < $totalGps; $i++ ) {
     print "Marcando a numero: {$gpsNumbers[$i]} \n";
-    $elastix->write("Action: Originate", true);
-    $elastix->write("Channel: sip/3135709916@GoIP1", true);
-    $elastix->write("MaxRetries: 2", true);
-    $elastix->write("RetryTime: 300", true);
-    $elastix->write("WaitTime: 45", true);
-    $elastix->write("Context: outboundmsg1", true);
-    $elastix->write("Exten: s", true);
-    $elastix->write("Priority: 1", true);
+    $elastix->write("Action: Originate");
+    $elastix->write("Channel: sip/3135709916@GoIP1");
+    $elastix->write("MaxRetries: 2");
+    $elastix->write("RetryTime: 300");
+    $elastix->write("WaitTime: 45");
+    $elastix->write("Context: outboundmsg1");
+    $elastix->write("Exten: s");
+    $elastix->write("Priority: 1");
     $elastix->write("Callerid: BOO-045 <3135709916>", true);
 
     // wait...
@@ -51,11 +51,10 @@ do {
       $line  = $me->getLine();
       Logger::write($line, "info");
       echo "message from socket: ".$line;
-      if(preg_match('/^.*\.(wav)$/i', $line))
+      if (strpos($line, 'Hangup') > 0)
         return true;
     });
-
-    sleep(TIME_CALL_SLEEP);
+    break;
+  //  sleep(TIME_CALL_SLEEP);
   }
-
 } while (true);
