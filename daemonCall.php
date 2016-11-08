@@ -22,7 +22,7 @@ try {
   $elastix = new SkySocketElastix("192.168.0.250", "5038");
   // hacemos login
   $elastix->write("Action: Login");
-  $elastix->write("Username: admin");
+  $elastix->write("Username: skyguard");
   $elastix->write("Secret: maylo165*", true);
 
 } catch (Exception $e) {
@@ -31,7 +31,7 @@ try {
 
 $totalGps = count($gpsNumbers);
 echo "I'm the daemon of skyguard :D\n";
-do {
+//do {
 
   for ($i = 0; $i < $totalGps; $i++ ) {
     print "Marcando a numero: {$gpsNumbers[$i]} \n";
@@ -51,10 +51,34 @@ do {
       $line  = $me->getLine();
       Logger::write($line, "info");
       echo "message from socket: ".$line;
-      if (strpos($line, 'Hangup') > 0)
+      if (strpos($line, '.wav') > 0){
+	$rutaExp = explode(' ', $line);
+	$file = $rutaExp[1];
+	$uploadResponse = uploadFile($file, '3135709916');
+	var_dump($uploadResponse);
+	echo "Ruta del archivo:". $file . "\n";
+      } 
+     if (strpos($line, 'Hangup') > 0)
         return true;
     });
     break;
   //  sleep(TIME_CALL_SLEEP);
   }
-} while (true);
+//} while (true);
+function uploadFile($filePath, $number)
+{
+	$post = array('phoneNumber'=>$number, 'method' => 'recordCall', 
+'file_contents' 
+=> new 
+CURLFile($filePath), 'file_extension' => 'wav');
+	$ch = curl_init();
+	curl_setopt($ch, CURLOPT_URL, 'https://files.sky-guard.net/lib/uploadFileJQuery.php');
+	curl_setopt($ch, CURLOPT_POST,1);
+	curl_setopt($ch, CURLOPT_POSTFIELDS, $post);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+	curl_setopt($ch, CURLOPT_SAFE_UPLOAD, true);
+	$rs = curl_exec($ch);
+	curl_close ($ch);
+	return $rs;
+}
+echo "fin de llamada;";
