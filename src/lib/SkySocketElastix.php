@@ -31,7 +31,7 @@ class SkySocketElastix
 
   public function write($msg="", $doubleReturn=false)
   {
-    $msg = $doubleReturn ? $msg . "\r\n\r\n" : $msg . "\r\n";
+    $msg .= $doubleReturn ? "\r\n\r\n" : "\r\n";
     fputs($this->_socket, $msg);
   }
 
